@@ -1,14 +1,16 @@
-# Restaurante App - Semana 13
+# Restaurante App - Semana 14
+## Nombre Jostin Calva
+## Descripción
 
-# Jostin Anthony Calva Salinas
+Proyecto desarrollado para la Semana 14 de la asignatura Programación Orientada a Objetos.
 
-Aplicación desarrollada para la asignatura Programación Orientada a Objetos, correspondiente a la Semana 13.
+En esta semana se evolucionó la aplicación gráfica del restaurante mediante el uso de componentes, contenedores y gestores de geometría de Tkinter y ttk.
 
-En esta etapa se inicia la transición de la aplicación de consola hacia una interfaz gráfica de usuario utilizando Tkinter.
+La aplicación permite iniciar sesión, consultar usuarios y gestionar productos mediante una interfaz gráfica organizada.
 
 ## Objetivo
 
-Implementar una estructura gráfica básica para el sistema Restaurante App, utilizando modelos, servicios, archivos JSON y vistas independientes.
+Aplicar los fundamentos de componentes y contenedores en Tkinter, manteniendo la arquitectura modular del proyecto y la separación de responsabilidades entre modelos, servicios, interfaz y datos.
 
 ## Estructura del proyecto
 
@@ -31,3 +33,19 @@ restaurante_app/
 │   └── main_view.py
 ├── main.py
 └── README.md
+```
+
+## Componentes utilizados
+
+La interfaz gráfica utiliza componentes de Tkinter y ttk, entre ellos:
+
+* `Tk`
+* `Frame`
+* `LabelFrame`
+* `Label`
+* `Entry`
+* `Button`
+* `Treeview`
+* `messagebox`
+
+Esto

@@ -1,90 +1,152 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 
 class LoginView:
 
-    def __init__(self, root, restaurante_servicio, mostrar_principal):
+    def __init__(self, root, restaurante_servicio, abrir_principal):
+
         self.root = root
         self.restaurante_servicio = restaurante_servicio
-        self.mostrar_principal = mostrar_principal
+        self.abrir_principal = abrir_principal
 
-        self.frame = ttk.Frame(self.root, padding=30)
-        self.frame.pack(fill="both", expand=True)
+        self.root.title("Restaurante App - Inicio de Sesión")
+        self.root.geometry("500x400")
+        self.root.resizable(False, False)
 
-        self.crear_interfaz()
-
-    def crear_interfaz(self):
-        titulo = ttk.Label(
-            self.frame,
-            text="Restaurante App",
-            font=("Arial", 22, "bold")
+        # CONTENEDOR PRINCIPAL
+        frame_principal = ttk.Frame(
+            self.root,
+            padding=30
         )
-        titulo.pack(pady=(30, 10))
-
-        subtitulo = ttk.Label(
-            self.frame,
-            text="Inicio de sesión"
+        frame_principal.pack(
+            fill="both",
+            expand=True
         )
-        subtitulo.pack(pady=(0, 20))
 
+        # TITULO
         ttk.Label(
-            self.frame,
-            text="Usuario:"
+            frame_principal,
+            text="RESTAURANTE APP",
+            font=("Arial", 22, "bold")
         ).pack(pady=(10, 5))
 
-        self.usuario_entry = ttk.Entry(
-            self.frame,
+        ttk.Label(
+            frame_principal,
+            text="Inicio de sesión",
+            font=("Arial", 14)
+        ).pack(pady=(0, 20))
+
+        # FORMULARIO
+        frame_formulario = ttk.LabelFrame(
+            frame_principal,
+            text="Datos de acceso",
+            padding=20
+        )
+        frame_formulario.pack(
+            fill="x",
+            padx=20
+        )
+
+        # USUARIO
+        ttk.Label(
+            frame_formulario,
+            text="Usuario:"
+        ).grid(
+            row=0,
+            column=0,
+            padx=10,
+            pady=10,
+            sticky="w"
+        )
+
+        self.entry_usuario = ttk.Entry(
+            frame_formulario,
             width=30
         )
-        self.usuario_entry.pack()
+        self.entry_usuario.grid(
+            row=0,
+            column=1,
+            padx=10,
+            pady=10
+        )
 
+        # CONTRASEÑA
         ttk.Label(
-            self.frame,
+            frame_formulario,
             text="Contraseña:"
-        ).pack(pady=(10, 5))
+        ).grid(
+            row=1,
+            column=0,
+            padx=10,
+            pady=10,
+            sticky="w"
+        )
 
-        self.contrasena_entry = ttk.Entry(
-            self.frame,
+        self.entry_password = ttk.Entry(
+            frame_formulario,
             width=30,
             show="*"
         )
-        self.contrasena_entry.pack()
-
-        self.mensaje = ttk.Label(
-            self.frame,
-            text=""
+        self.entry_password.grid(
+            row=1,
+            column=1,
+            padx=10,
+            pady=10
         )
-        self.mensaje.pack(pady=15)
 
-        boton_ingresar = ttk.Button(
-            self.frame,
-            text="Ingresar",
+        # BOTON INGRESAR
+        frame_boton = ttk.Frame(
+            frame_principal
+        )
+        frame_boton.pack(
+            pady=25
+        )
+
+        ttk.Button(
+            frame_boton,
+            text="INGRESAR",
             command=self.ingresar
+        ).pack(
+            ipadx=20,
+            ipady=5
         )
-        boton_ingresar.pack(pady=10)
 
-        self.usuario_entry.focus()
+        # DATOS DE PRUEBA
+        ttk.Label(
+            frame_principal,
+            text="Usuario de prueba: admin  |  Contraseña: 1234"
+        ).pack(
+            pady=5
+        )
 
     def ingresar(self):
-        usuario = self.usuario_entry.get().strip()
-        contrasena = self.contrasena_entry.get().strip()
 
-        if not usuario or not contrasena:
-            self.mensaje.config(
-                text="Complete todos los campos."
+        usuario = self.entry_usuario.get().strip()
+        password = self.entry_password.get().strip()
+
+        if not usuario or not password:
+            messagebox.showwarning(
+                "Advertencia",
+                "Ingrese el usuario y la contraseña."
             )
             return
 
         acceso_correcto = self.restaurante_servicio.validar_acceso(
             usuario,
-            contrasena
+            password
         )
 
-        if acceso_correcto:
-            self.frame.destroy()
-            self.mostrar_principal()
-        else:
-            self.mensaje.config(
-                text="Usuario o contraseña incorrectos."
+        if acceso_correcto is None:
+            messagebox.showerror(
+                "Error",
+                "Usuario o contraseña incorrectos."
             )
+            return
+
+        for widget in self.root.winfo_children():
+            widget.destroy()
+
+        self.abrir_principal(
+            acceso_correcto
+        )
